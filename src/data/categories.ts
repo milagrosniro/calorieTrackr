@@ -1,8 +1,13 @@
 import { ICategory } from "../types"
 
-const categories : ICategory[] = [
+export const categories : ICategory[] = [
     {id:1, name: 'Food'},
     {id:2, name: 'Exercise'}
 ]
 
-export default categories
+export interface IInfo {
+    id:string;
+    category: 1 | 2,
+    activity: string,
+    calories: number
+}

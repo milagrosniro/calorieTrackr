@@ -1,13 +1,12 @@
-import categories from "../../data/categories";
+import {categories} from "../../data/categories";
 import { useState } from "react";
-import { IInfoState } from "./form.types.ts";
+import { IFormProps, IInfoState } from "./form.types.ts";
+import { initialInfoState } from "../../constants/index.ts";
+import {v4 as uuidV4} from 'uuid';
 
-const Form = () => {
-  const [info, setInfo] = useState<IInfoState>({
-    category: 1,
-    activity: "",
-    calories: 0,
-  });
+const Form = ({dispatch}:IFormProps) => {
+
+  const [info, setInfo] = useState<IInfoState>(initialInfoState);
 
   const handleInfo = (
     e:
@@ -15,14 +14,23 @@ const Form = () => {
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const isNumber : boolean = ['category', 'calories'].includes(e.target.id);
-
     setInfo({ ...info, [e.target.id]: isNumber ? +e.target.value : e.target.value });
   };
 
+  const isValidActivity = () => info.activity.trim() !== '' && info.calories > 0
+
+  const handleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch({type:'saveActivity',payload: {newActivity: info}})
+    setInfo({...initialInfoState, id: uuidV4()})
+  }
+
   return (
-    <form className=" space-y-5 bg-white shadow p-10 rounded-lg">
+    <form className=" space-y-5 bg-white shadow p-10 rounded-lg"
+    onSubmit={ handleSubmit}
+    >
       <div className=" grid grid-cols-1 gap-3">
-        <label htmlFor="category">Category:</label>
+        <label htmlFor="category" className=" font-bold">Category:</label>
         <select
           className=" border border-slate-300 p-2 rounded-lg w-full bg-white"
           id="category"
@@ -62,13 +70,15 @@ const Form = () => {
           value={info.calories}
           onChange={handleInfo}
         />
+        
       </div>
 
       <input
         type="submit"
-        className=" bg-gray-800 hover:bg-gray-900 w-full p-2 font-bold uppercase text-white cursor-pointer"
-        value={"Save Food or Save Exercise"}
-      ></input>
+        className=" bg-gray-800 hover:bg-gray-900 w-full p-2 font-bold uppercase text-white cursor-pointer disabled:opacity-15"
+        value={info.category === 1 ? 'Save Food ': "Save Exercise"}
+        disabled={!isValidActivity()}
+      />
     </form>
   );
 };
