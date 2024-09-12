@@ -1,12 +1,19 @@
 import {categories} from "../../data/categories";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IFormProps, IInfoState } from "./form.types.ts";
 import { initialInfoState } from "../../constants/index.ts";
 import {v4 as uuidV4} from 'uuid';
 
-const Form = ({dispatch}:IFormProps) => {
+const Form = ({dispatch, state}:IFormProps) => {
 
   const [info, setInfo] = useState<IInfoState>(initialInfoState);
+  
+  useEffect(()=>{
+    if(state.activeId){
+      const selectedActivity = state.activities.find(stateActivity => stateActivity.id === state.activeId)
+      if(selectedActivity)  setInfo(selectedActivity)
+    }
+  },[state.activeId])
 
   const handleInfo = (
     e:
@@ -23,6 +30,7 @@ const Form = ({dispatch}:IFormProps) => {
     e.preventDefault();
     dispatch({type:'saveActivity',payload: {newActivity: info}})
     setInfo({...initialInfoState, id: uuidV4()})
+    if(state.activeId.trim() !== '') dispatch({type: 'setActiveId', payload: {id:''}})
   }
 
   return (

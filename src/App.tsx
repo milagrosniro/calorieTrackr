@@ -27,7 +27,8 @@ const App = () => {
     <section className=" bg-lime-500 py-20 px-5">
       <div className=" max-w-4xl mx-auto">
         <Form
-        dispatch={dispatch}/>
+        dispatch={dispatch}
+        state={state}/>
       </div>
 
     </section>
@@ -36,7 +37,8 @@ const App = () => {
     className=" p-10 mx-auto max-w-4xl"
     >
       <ActivityList 
-      activities={state.activities} />
+      activities={state.activities}
+      dispatch={dispatch} />
 
     </section>
       

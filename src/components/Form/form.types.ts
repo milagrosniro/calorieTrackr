@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { ActivityActions } from "../../reducers/activityReducer"
+import { ActivityActions, ActivityState } from "../../reducers/activityReducer"
 
 export interface IInfoState {
     id: string;
@@ -9,5 +9,6 @@ export interface IInfoState {
 }
 
 export interface IFormProps{
-    dispatch: Dispatch<ActivityActions>
+    dispatch: Dispatch<ActivityActions>;
+    state: ActivityState
 }

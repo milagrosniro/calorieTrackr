@@ -3,7 +3,7 @@ import { IInfo, categories } from "../../data/categories";
 import { useMemo } from "react";
 import {PencilSquareIcon} from '@heroicons/react/24/outline';
 
-const ActivityList = ({ activities }: IActivityListProps) => {
+const ActivityList = ({ activities, dispatch }: IActivityListProps) => {
 
   const categoryName = useMemo(
     () => (category: IInfo["category"]) => {
@@ -14,6 +14,10 @@ const ActivityList = ({ activities }: IActivityListProps) => {
     },
     [activities]
   );
+
+  const onClick = (id: IInfo['id']) => {
+    dispatch({ type: 'setActiveId',  payload: {id} })
+  }
 
   return (
     <>
@@ -45,6 +49,7 @@ const ActivityList = ({ activities }: IActivityListProps) => {
             <button>
               <PencilSquareIcon 
               className=" h-8 w-8 text-gray-800"
+              onClick={()=> onClick(act.id)}
               />
             </button>
           </div>
