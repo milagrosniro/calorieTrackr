@@ -1,6 +1,5 @@
 import { Dispatch } from "react";
-import { ActivityActions, ActivityState } from "../../reducers/activityReducer"
-
+import { ActivityActions, ActivityState } from "../../reducers/activityReducer.types";
 export interface IInfoState {
     id: string;
     category: 1 | 2,

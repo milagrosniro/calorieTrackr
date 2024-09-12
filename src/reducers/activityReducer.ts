@@ -1,20 +1,16 @@
 import { IInfo } from "../data/categories"
+import { ActivityActions, ActivityState } from "./activityReducer.types"
 
-export type ActivityActions = { type: 'saveActivity', payload: {newActivity: IInfo}} | 
-{ type: 'setActiveId',  payload: {id: IInfo['id']} }
-
-export type ActivityState = {
-    activities: IInfo[],
-    activeId: IInfo['id']
+const localStorageActivities = () : IInfo[] => {
+    const activities = localStorage.getItem('activities')
+    return activities ? JSON.parse(activities) : []
 }
-
 export const initialState : ActivityState = {
-    activities: [],
+    activities: localStorageActivities(),
     activeId: ''
-
 }
 
-export const activityReducer = ( state: ActivityState = initialState, action: ActivityActions) =>{
+export const activityReducer = ( state: ActivityState = initialState, action: ActivityActions) => {
     
 switch(action.type){
     case 'saveActivity' : {
@@ -24,9 +20,11 @@ switch(action.type){
         }else{
             updatedActivities = [...state.activities, action.payload.newActivity]
         }
-        return  {...state, activities: updatedActivities}
+        return  {...state, activities: updatedActivities, activeId: ''}
     };
     case 'setActiveId' : return {...state, activeId: action.payload.id};
+    case 'deleteActivity' : return  {...state, activities: state.activities.filter(act => act.id !== action.payload.id)}
+    case 'resetAll' : return {activities: [], activeId: ''}
     default: return state
 };
 

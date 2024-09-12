@@ -30,8 +30,8 @@ const Form = ({dispatch, state}:IFormProps) => {
     e.preventDefault();
     dispatch({type:'saveActivity',payload: {newActivity: info}})
     setInfo({...initialInfoState, id: uuidV4()})
-    if(state.activeId.trim() !== '') dispatch({type: 'setActiveId', payload: {id:''}})
   }
+
 
   return (
     <form className=" space-y-5 bg-white shadow p-10 rounded-lg"
