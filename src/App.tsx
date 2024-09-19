@@ -1,16 +1,17 @@
-import { useEffect, useMemo, useReducer } from "react"
-import Form from "./components/Form"
-import { activityReducer, initialState } from "./reducers/activityReducer"
+import { useEffect, useMemo } from "react";
 import ActivityList from "./components/ActivityList";
 import CalorieTrackr from "./components/CalorieTracker";
+import Form from "./components/Form";
+import { useActivity } from "./hook/useActivity";
 
 
 const App = () => {
 
-  const [state, dispatch] = useReducer(activityReducer, initialState);
+  //  const [state, dispatch] = useReducer(activityReducer, initialState);
+  const {state, dispatch} = useActivity();
 
   useEffect(()=>{
-    localStorage.setItem('activities', JSON.stringify(state.activities))
+   if(state.activities) localStorage.setItem('activities', JSON.stringify(state.activities))
   },[state.activities])
 
   const canRestart = useMemo(() => state.activities.length > 0, [state.activities])
@@ -38,9 +39,7 @@ const App = () => {
 
     <section className=" bg-lime-500 py-20 px-5">
       <div className=" max-w-4xl mx-auto">
-        <Form
-        dispatch={dispatch}
-        state={state}/>
+        <Form/>
       </div>
 
     </section>
@@ -51,7 +50,7 @@ const App = () => {
       <div
       className=" max-w-4xl mx-auto"
       >
-        <CalorieTrackr activities={state.activities}/>
+        <CalorieTrackr/>
       </div>
 
     </section>
@@ -60,9 +59,7 @@ const App = () => {
     <section
     className=" p-10 mx-auto max-w-4xl"
     >
-      <ActivityList 
-      activities={state.activities}
-      dispatch={dispatch} />
+      <ActivityList/>
 
     </section>
       

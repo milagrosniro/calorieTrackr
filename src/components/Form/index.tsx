@@ -1,13 +1,15 @@
-import {categories} from "../../data/categories";
 import { useEffect, useState } from "react";
-import { IFormProps, IInfoState } from "./form.types.ts";
+import { v4 as uuidV4 } from 'uuid';
 import { initialInfoState } from "../../constants/index.ts";
-import {v4 as uuidV4} from 'uuid';
+import { categories } from "../../data/categories";
+import { useActivity } from "../../hook/useActivity.ts";
+import { IInfoState } from "./form.types.ts";
 
-const Form = ({dispatch, state}:IFormProps) => {
+const Form = () => {
+  const {state, dispatch} = useActivity();
 
   const [info, setInfo] = useState<IInfoState>(initialInfoState);
-  
+   
   useEffect(()=>{
     if(state.activeId){
       const selectedActivity = state.activities.find(stateActivity => stateActivity.id === state.activeId)
@@ -21,7 +23,10 @@ const Form = ({dispatch, state}:IFormProps) => {
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const isNumber : boolean = ['category', 'calories'].includes(e.target.id);
-    setInfo({ ...info, [e.target.id]: isNumber ? +e.target.value : e.target.value });
+
+    // const infoUploaded = {...info, [e.target.id]: isNumber ? +e.target.value : e.target.value }
+    // dispatch({type:'uploadInfoForm', payload:{info: infoUploaded}})
+     setInfo({ ...info, [e.target.id]: isNumber ? +e.target.value : e.target.value });
   };
 
   const isValidActivity = () => info.activity.trim() !== '' && info.calories > 0

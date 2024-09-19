@@ -1,3 +1,4 @@
+import { initialInfoState } from "../constants"
 import { IInfo } from "../data/categories"
 import { ActivityActions, ActivityState } from "./activityReducer.types"
 
@@ -7,7 +8,8 @@ const localStorageActivities = () : IInfo[] => {
 }
 export const initialState : ActivityState = {
     activities: localStorageActivities(),
-    activeId: ''
+    activeId: '',
+    infoForm: initialInfoState
 }
 
 export const activityReducer = ( state: ActivityState = initialState, action: ActivityActions) => {
@@ -24,7 +26,16 @@ switch(action.type){
     };
     case 'setActiveId' : return {...state, activeId: action.payload.id};
     case 'deleteActivity' : return  {...state, activities: state.activities.filter(act => act.id !== action.payload.id)}
-    case 'resetAll' : return {activities: [], activeId: ''}
+    case 'resetAll' : return {activities: [], activeId: '', infoForm: initialInfoState};
+
+    case 'uploadInfoForm' : {
+        const {info} = action.payload
+        return{
+            ...state,
+            infoForm: info
+        }
+    }
+
     default: return state
 };
 

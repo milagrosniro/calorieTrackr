@@ -16,7 +16,10 @@ Welcome to **Calories Trackr**! This web app helps you monitor your daily calori
 - **Vite:** For fast and optimized builds.
 - **TailwindCSS:** For modern and customizable styling.
 - **useMemo:** To optimize performance by memoizing expensive calculations.
-- **useReducer:** For managing complex state logic in a scalable way.
+- **useReducer & useContext:** For managing complex state logic and providing a scalable way to share state across components.
+
+The application was refactored to improve state management by leveraging **reducers** and **hooks**. The refactor introduces the `useReducer` hook for managing complex state transitions, providing a more scalable and maintainable approach compared to traditional `useState`. The `useContext` hook was also employed to allow global state sharing across multiple components, improving code structure and modularity.
+
 
 ## 🚀 Live Demo
 
