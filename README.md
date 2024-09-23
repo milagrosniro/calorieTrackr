@@ -53,7 +53,7 @@ The project will be available at https://66e29714198403085224f2f8--comfy-lebkuch
 npm run dev: Starts the development server.
 npm run build: Builds the project for production.
 npm run lint: Runs ESLint to analyze the code.
-npm run test: Runs unit tests (if any).
+
  ```
 
 ## 📝 License
